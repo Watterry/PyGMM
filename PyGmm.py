@@ -148,7 +148,7 @@ class ImageGMM:
         return result
 
 def test():
-    cap = cv2.VideoCapture('D:/video/1_baofeng.avi')
+    cap = cv2.VideoCapture('D:/video/test5.avi')
     count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     width  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -164,7 +164,7 @@ def test():
     index = 0
     img_Gmm = ImageGMM(4, width, height)
 
-    out = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), fps, (width,height))
+    out = cv2.VideoWriter('outpy.mp4',cv2.VideoWriter_fourcc('A','V','C','1'), fps, (width,height))
 
     while(cap.isOpened()):  
         logging.info("process frame index: %d", index)
@@ -186,7 +186,7 @@ def test():
             result = np.float32(img_Gmm.extractFront(gray_img))
             vis = cv2.cvtColor(result, cv2.COLOR_GRAY2BGR)
 
-            out.write(frame)
+            out.write(result)
             #cv2.imshow('image',vis)
             #cv2.waitKey(0)
 
