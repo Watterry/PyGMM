@@ -136,7 +136,7 @@ class ImageGMM:
         Returns:
             
         """
-        result = np.zeros((self.height, self.width), dtype=int)
+        result = np.zeros((self.height, self.width), dtype=int).astype('uint8')
         for x in range(self.height):
             for y in range(self.width):
                 pixel = frame[x, y]
@@ -148,7 +148,7 @@ class ImageGMM:
         return result
 
 def test():
-    cap = cv2.VideoCapture('D:/video/test5.avi')
+    cap = cv2.VideoCapture('D:/video/test5.mp4')
     count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     width  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -164,7 +164,7 @@ def test():
     index = 0
     img_Gmm = ImageGMM(4, width, height)
 
-    out = cv2.VideoWriter('outpy.mp4',cv2.VideoWriter_fourcc('A','V','C','1'), fps, (width,height))
+    out = cv2.VideoWriter('outpy.mp4',cv2.VideoWriter_fourcc('a','v','c','1'), fps, (width,height), False)
 
     while(cap.isOpened()):  
         logging.info("process frame index: %d", index)
@@ -183,9 +183,7 @@ def test():
             #train the background of Gaussians
             img_Gmm.trainGMM(gray_img)
         else:
-            result = np.float32(img_Gmm.extractFront(gray_img))
-            vis = cv2.cvtColor(result, cv2.COLOR_GRAY2BGR)
-
+            result = img_Gmm.extractFront(gray_img)
             out.write(result)
             #cv2.imshow('image',vis)
             #cv2.waitKey(0)
