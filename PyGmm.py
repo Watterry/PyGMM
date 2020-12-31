@@ -64,14 +64,14 @@ class MixGMM:
             mu = self.GMMs[0, i].mu
             sig = self.GMMs[0, i].sig
 
-            temp = abs(pixel - mu)
+            temp = abs(int(pixel) - int(mu))
             if (temp < (2.5 * sig)):
                 # current model is matched
                 noMatch = False
                 self.weights[0, i] = (1-alpha)*self.weights[0, i] + alpha
                 self.GMMs[0, i].mu = (1-beta)*self.GMMs[0, i].mu + beta*pixel
                 # TODO: need more match calculation here
-                self.GMMs[0, i].sig = math.sqrt( (1-beta)*pow(sig,2) + beta*pow((pixel - mu),2) )
+                self.GMMs[0, i].sig = math.sqrt( (1-beta)*pow(sig,2) + beta*pow(( int(pixel) - int(mu) ),2) )
             else:
                 # current model is not matched
                 self.weights[0, i] = (1-alpha)*self.weights[0, i]
