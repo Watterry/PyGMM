@@ -7,7 +7,7 @@ import cv2
 import math
 
 alpha = 0.01
-beta = alpha/(1/4)
+rho = alpha/(1/4)
 sig_init = 9
 
 def normalization(data):
@@ -69,9 +69,9 @@ class MixGMM:
                 # current model is matched
                 noMatch = False
                 self.weights[0, i] = (1-alpha)*self.weights[0, i] + alpha
-                self.GMMs[0, i].mu = (1-beta)*self.GMMs[0, i].mu + beta*pixel
+                self.GMMs[0, i].mu = (1-rho)*self.GMMs[0, i].mu + rho*pixel
                 # TODO: need more match calculation here
-                self.GMMs[0, i].sig = math.sqrt( (1-beta)*pow(sig,2) + beta*pow(( int(pixel) - int(mu) ),2) )
+                self.GMMs[0, i].sig = math.sqrt( (1-rho)*pow(sig,2) + rho*pow(( int(pixel) - int(mu) ),2) )
             else:
                 # current model is not matched
                 self.weights[0, i] = (1-alpha)*self.weights[0, i]
