@@ -11,8 +11,8 @@ rho = alpha/(1/4)
 sig_init = 9
 
 def normalization(data):
-    norm = np.linalg.norm(data, ord=2, axis=1, keepdims=True)
-    normal_array = data/(norm*2)
+    norm = np.sum(data)
+    normal_array = data/norm
 
     return normal_array
 
@@ -78,8 +78,7 @@ class MixGMM:
 
         if noMatch:
             #replace the least probable distribution if no match of all models
-            weights = self.weights.tolist()
-            min_index = weights.index(min(weights))
+            min_index = self.weights.argmin()
 
             self.GMMs[0, min_index].mu = pixel
             self.GMMs[0, min_index].sig = sig_init
@@ -206,11 +205,17 @@ if __name__ == "__main__":
 
     test()
 
-    # a = np.array([[0.28, 0.23, 0.23, 0.23, 0.23]])
-    # list_a = a.tolist()
-    
-    # list_a_max_list = min(list_a) #返回最大值
-    # max_index = list_a.index(min(list_a)) # 返回最大值的索引 
+    #some test code
+    # an_array = np.random.rand(10)*10
+    # print(an_array)
+    # print(np.sum(an_array))
 
-    # print(list_a_max_list)
-    # print(max_index)
+    # norm = np.linalg.norm(an_array)
+    # normal_array = an_array/norm
+    # print(normal_array)
+    # print(np.sum(normal_array))
+
+    # total = np.sum(an_array)
+    # new_array = an_array/total
+    # print(new_array)
+    # print(np.sum(new_array))
