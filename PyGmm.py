@@ -57,8 +57,6 @@ class MixGMM:
             True if the pixel is force ground, False if the pixel is background
         """
         noMatch = True
-        maxGap = 0
-        maxIdx = 0
 
         for i in range(self.C):
             mu = self.GMMs[0, i].mu
@@ -68,23 +66,23 @@ class MixGMM:
             if (temp < (2.5 * sig)):
                 # current model is matched
                 noMatch = False
+
+                global rho
                 self.weights[0, i] = (1-alpha)*self.weights[0, i] + alpha
                 self.GMMs[0, i].mu = (1-rho)*self.GMMs[0, i].mu + rho*pixel
-                # TODO: need more match calculation here
+                rho = alpha/self.weights[0, i]
                 self.GMMs[0, i].sig = math.sqrt( (1-rho)*pow(sig,2) + rho*pow(( int(pixel) - int(mu) ),2) )
             else:
                 # current model is not matched
                 self.weights[0, i] = (1-alpha)*self.weights[0, i]
-            
-            # save the least probable distribution
-            if maxGap < temp:
-                maxGap = temp
-                maxIdx = i
 
         if noMatch:
             #replace the least probable distribution if no match of all models
-            self.GMMs[0, maxIdx].mu = pixel
-            self.GMMs[0, maxIdx].sig = sig_init
+            weights = self.weights.tolist()
+            min_index = weights.index(min(weights))
+
+            self.GMMs[0, min_index].mu = pixel
+            self.GMMs[0, min_index].sig = sig_init
 
         # re-normalize weights
         new_weights = normalization(self.weights)
@@ -207,3 +205,12 @@ if __name__ == "__main__":
     logging.getLogger('matplotlib.font_manager').disabled = True
 
     test()
+
+    # a = np.array([[0.28, 0.23, 0.23, 0.23, 0.23]])
+    # list_a = a.tolist()
+    
+    # list_a_max_list = min(list_a) #返回最大值
+    # max_index = list_a.index(min(list_a)) # 返回最大值的索引 
+
+    # print(list_a_max_list)
+    # print(max_index)
