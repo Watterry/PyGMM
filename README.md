@@ -19,11 +19,11 @@ You can use surveillance videos to test the code. Here is my example of test Res
 
 Original video screenshot:
 
-![alt text](./image2/1.png)
+![Original video screenshot](./images/1.png)
 
 The Guassian Background substraction result:
 
-![alt text](./images/2.png)
+![GMM result](./images/2.png)
 
 
 # TODO
