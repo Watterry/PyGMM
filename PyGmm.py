@@ -5,6 +5,7 @@ import pylab
 import numpy as np  
 import cv2
 import math
+import argparse
 
 alpha = 0.01
 rho = alpha/(1/4)
@@ -144,8 +145,8 @@ class ImageGMM:
 
         return result
 
-def test():
-    cap = cv2.VideoCapture('D:/video/test5.mp4')
+def test(input_file, output_file):
+    cap = cv2.VideoCapture(input_file)
     count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     width  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -161,7 +162,7 @@ def test():
     index = 0
     img_Gmm = ImageGMM(4, width, height)
 
-    out = cv2.VideoWriter('outpy.mp4',cv2.VideoWriter_fourcc('a','v','c','1'), fps, (width,height), False)
+    out = cv2.VideoWriter(output_file, cv2.VideoWriter_fourcc('a','v','c','1'), fps, (width,height), False)
 
     while(cap.isOpened()):  
         logging.info("process frame index: %d", index)
@@ -203,19 +204,15 @@ if __name__ == "__main__":
     )
     logging.getLogger('matplotlib.font_manager').disabled = True
 
-    test()
+    inputfile = ''
+    outputfile = ''
 
-    #some test code
-    # an_array = np.random.rand(10)*10
-    # print(an_array)
-    # print(np.sum(an_array))
+    parser = argparse.ArgumentParser("For Python Guassian Mixture Model Usage")
+    parser.add_argument('-i', '--input', default="D:/video/test5.mp4", help='input video file')
+    parser.add_argument('-o', '--output', default="outpy.mp4", help='output video file')
+    args = parser.parse_args()
 
-    # norm = np.linalg.norm(an_array)
-    # normal_array = an_array/norm
-    # print(normal_array)
-    # print(np.sum(normal_array))
+    inputfile = args.input
+    outputfile = args.output
 
-    # total = np.sum(an_array)
-    # new_array = an_array/total
-    # print(new_array)
-    # print(np.sum(new_array))
+    test(inputfile, outputfile)

@@ -7,13 +7,32 @@ Python code for Guassian Mixture Models, using for video background modeling, ba
 1. Python 3.6.2
 2. Python OpenCV 4.2.0
 
+# Usage
+
+```console
+PyGmm.py -i D:/video/test5.mp4 -o outpy.mp4
+```
+
 # Test Result
 
-You can use surveillance videos to test the code.
+You can use surveillance videos to test the code. Here is my example of test Result:
+
+Original video screenshot:
+
+![alt text](./image2/1.png)
+
+The Guassian Background substraction result:
+
+![alt text](./images/2.png)
+
 
 # TODO
 
 1. The speed is very slow and should make something up to speed it.
+
+2. Connect components and filter noise pixels.
+
+3. Add Kalman filters to track the moving objects. 
 
 # Reference
 
